@@ -18,10 +18,36 @@
   </resultMap>
   
   <select id="selectOne" parameterType="Member" resultMap="memberResultSet">
-  	select *
+  	<!-- 암호화 전 -->
+  <!--  	select *
   	from member
   	where id=#{id} and pwd=#{pwd} and m_status='Y'
+  	-->
+  	
+  	<!-- 암호화 후 -->
+  	select *
+  	from member
+  	where id=#{id} and m_status='Y'
   </select>
+  
+  
+  <insert id="insertMember" parameterType="Member">
+  	insert into member
+  	values(#{id}, #{pwd}, #{name}, #{email}, #{gender}, #{age}, #{phone}, #{address},SYSDATE,SYSDATE,default)
+  </insert>
+  
+  
+  <update id="updateMember" parameterType="Member">
+	update  member set name=#{name}, email=#{email}, gender=#{gender}, age=#{age}, phone=#{phone}, address=#{address}, UPDATE_DATE = SYSDATE  where id=#{id}
+  </update>
+  
+  <update id="updatePwd" parameterType="Member">
+  	update member set pwd=#{pwd} where id=#{id}
+  </update>
+  
+  <update id="deleteMember" parameterType="string">
+  	update member set M_STATUS='N' where id=#{id}
+  </update>
   
   
 </mapper>

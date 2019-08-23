@@ -6,4 +6,12 @@ public interface MemberService {
 
 	Member memberLogin(Member m);
 
+	int insertMember(Member m);
+
+	int updateMember(Member m);
+
+	int updatePwd(Member m);
+
+	int deletMember(String id);
+
 }

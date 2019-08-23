@@ -45,7 +45,8 @@
 					</tr>
 					<tr>
 						<td colspan="3">
-							<button type="button" onclick="location.href='enrollView.do'">회원가입</button>
+							<button type="button" onclick="location.href='enrollView.do'">회원가입</button> 
+							<!-- 이것을 처리할 멤버 컨트롤러에 메소드 만든다. -->
 							<button type="button">아이디/비밀번호 찾기</button>
 						</td>
 					</tr>

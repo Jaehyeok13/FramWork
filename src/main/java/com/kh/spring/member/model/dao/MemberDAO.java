@@ -17,6 +17,24 @@ public class MemberDAO {
 		return (Member)sqlSession.selectOne("memberMapper.selectOne",m);
 	}
 
+	public int inertMember(Member m) {
+		return sqlSession.insert("memberMapper.insertMember",m); // 이후 memberMapper 로간다.
+	}
+
+	// 정보 업데이트
+	public int updateMember(Member m) {
+		return sqlSession.update("memberMapper.updateMember",m);
+	}
+
+	public int updatePwd(Member m) {
+		return sqlSession.update("memberMapper.updatePwd",m);
+	}
+
+	public int deletMember(String id) {
+		return sqlSession.delete("memberMapper.deleteMember",id);
+	}
+
+	
 	
 	
 }
