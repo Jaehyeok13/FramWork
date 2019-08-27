@@ -23,6 +23,19 @@
 	
 	<context:component-scan base-package="com.kh.spring" />
 	
-	
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+   <beans:bean id='viewResolver' class="org.springframework.web.servlet.view.BeanNameViewResolver">
+      <beans:property name="order" value="0"/>
+   </beans:bean>
+   
+   <beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+   <beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+   	<beans:property name="messageConverters">
+   		<beans:list>
+   			<beans:ref bean="jacksonMessageConverter"/>
+   		</beans:list>
+   	</beans:property>
+   
+   </beans:bean>
 	
 </beans:beans>

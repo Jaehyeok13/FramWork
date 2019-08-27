@@ -28,6 +28,9 @@ public interface BoardService {
 	
 	// 삭제
 	int deleteBoard(int bId);
+
+	// 리스트 가져 오니간 one 이 아니고 여러개 list임
+	ArrayList<Board> selectTopList();
 	
 	
 }

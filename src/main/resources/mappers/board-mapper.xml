@@ -61,4 +61,16 @@
 	
 	</update>
 	
+	<select id="selectTopList" resultMap="boardResultSet"> 
+		<![CDATA[
+		select *
+		from (select * 
+				from board 
+				where b_status = 'Y'
+				order by bcount desc)
+		where rownum <= 5
+		]]>
+	</select>
+	
+	
 </mapper>

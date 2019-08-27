@@ -49,5 +49,11 @@
   	update member set M_STATUS='N' where id=#{id}
   </update>
   
+  <select id="idcheck" parameterType="string" resultType="_int">
+  	select count(*)
+  	from member
+  	where id=#{id}
+  </select>
+  
   
 </mapper>

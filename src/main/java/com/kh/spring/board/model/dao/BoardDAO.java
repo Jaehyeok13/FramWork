@@ -51,6 +51,11 @@ public class BoardDAO {
 	public int deleteBoard(int bId) {
 		return sqlSession.update("boardMapper.deleteBoard", bId);
 	}
+
+	//// 리스트 가져 오니간 one 이 아니고 여러개 list임
+	public ArrayList<Board> selectTopList() {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTopList");
+	}
 	
 	
 }

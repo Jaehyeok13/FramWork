@@ -1,6 +1,9 @@
 package com.kh.spring.member.controller;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.exception.MemberException;
 import com.kh.spring.member.model.service.MemberService;
@@ -174,7 +178,7 @@ public class MemberController {
 	 		View는 requestDispatcherServlet 처럼 forward할 뷰 페이지 정보를 담은 객체라고 할 수 있다.
 	 		
 	 		ModelAndView 는 이 두 가지를 합쳐놓은 객체이며
-	 		위처럼 Model 은 따로 사용 가능하ㅈ미나 View는 따로 사용 불가능 하다.
+	 		위처럼 Model 은 따로 사용 가능하지만  View는 따로 사용 불가능 하다.
 	 		
 	 		커맨드 객체로 ModelAndView 를 사용하여 전달하고자 하는 데이터와 뷰를 set함
 	 */
@@ -385,6 +389,45 @@ public class MemberController {
 		}else {
 			throw new MemberException("회원탈퇴 도중 오류 발상함");
 		}
+	}
+	
+	/******** 아이디 중복 확인 
+	 * @throws IOException ********/
+/*	@RequestMapping("dupid.do")
+	@ResponseBody
+	public String idCheck(String id) {
+		int result = mService.idCheck(id);
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+*/	
+	// 강사님 방법
+//	@RequestMapping("dupid.do")
+//	public void idDuplicateCheck(HttpServletResponse response, String id) throws IOException {
+//		
+//		boolean isUsable = mService.checkIdDup(id) == 0 ? true : false ; // 0이면 true
+//		
+//		response.getWriter().print(isUsable);
+//		
+//	}
+	
+	
+	@RequestMapping("dupid.do")
+	public ModelAndView idDuplicateCheck(ModelAndView mv, String id) {
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		
+		boolean isUsable = mService.checkIdDup(id) == 0 ? true : false;
+		
+		map.put("isUsable", isUsable);
+		mv.addAllObjects(map);
+		mv.setViewName("jsonView");
+		
+		return mv;
+				
 	}
 	
 }

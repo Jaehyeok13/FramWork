@@ -2,11 +2,15 @@ package com.kh.spring.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,13 +25,15 @@ import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
 import com.kh.spring.common.Pagination;
 
-// Servlet 에 bean 등록 하는 것을 어노테이션으로 대체 한다 Controller 로 한다. -> service 로 간다. 이동선 주입 DI 
+
+
+// Servlet 에 bean 등록 하는 것을 어노테이션으로 대체 한다 Controller 로 한다. -> serviceImpl 로 간다. 이동선 주입 DI 
 @Controller
 public class BoardController {
-//	service 로 간다. 이동선 주입 DI 인터페이스로 느슨한 관계를 위해서
+//	serviceImpl 로 간다. 이동선 주입 DI 인터페이스로 느슨한 관계를 위해서
 	
 	@Autowired
-	BoardService bService;
+	BoardService bService; // 의존성을 높이기 위해서 오토와이어 선언
 	
 	// 게시판 이동 페이징
 	@RequestMapping("blist.do")
@@ -211,5 +217,79 @@ public class BoardController {
 		return mv;
 	}
 	
+	// json - 1
+	// 메인에 게시글 tob 보여주기
+	@RequestMapping("topList.do")
+	public void boardTopList(HttpServletResponse response) throws IOException {
+		response.setContentType("application/json; charset=utf-8" );
+		
+		ArrayList<Board> list = bService.selectTopList();
+		
+		JSONArray jArr = new JSONArray(); // json 제공하는 배열 사용해서 담는다.
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 작성일 날자 원하는 결과로 출력하기 위해 사용
+		
+		for(Board b : list) {
+			  JSONObject jObj = new JSONObject();
+			  jObj.put("bId", b.getbId());
+			  jObj.put("bTitle", b.getbTitle());
+			  jObj.put("bWriter", b.getbWriter());
+			  jObj.put("originalFile", b.getOriginalFile());
+			  jObj.put("bCount", b.getbCount());
+			  jObj.put("bCreateDate", sdf.format(b.getbCreateDate()));
+		         
+		         jArr.add(jObj);
+					
+			
+		}
+		
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("list", jArr);
+		
+		PrintWriter out = response.getWriter();
+		out.print(sendJson);
+		out.flush();
+		out.close();
+		
+	}
+	
+	
+	// json -2
+//	@RequestMapping("topList.do")
+//	@ResponseBody
+//	public String boardTopList() throws  IOException {
+//		
+//		ArrayList<Board> list = bService.selectTopList();
+//		// 제목 부분 한글 깨지기 때문에 인코딩 해준다.
+//		for(Board b : list) {
+//			b.setbTitle(URLEncoder.encode(b.getbTitle(), "utf-8"));
+//			
+//		}
+//		
+//		ObjectMapper mapper = new ObjectMapper(); // porm.xml 가서 라이브러리 추가
+//	
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		
+//		mapper.setDateFormat(sdf);
+//		
+//		String jsonStr = mapper.writeValueAsString(list); // mapper 형변환 하여 스트링으로 넣는다.
+//		
+//		return jsonStr;
+//		
+//	}
+	
+//	@RequestMapping("topList.do")
+//	public void boardTopList(HttpServletResponse response) throws  IOException {
+//		
+//		ArrayList<Board> list = bService.selectTopList();
+//		// 제목 부분 한글 깨지기 때문에 인코딩 해준다.
+//		for(Board b : list) {
+//			b.setbTitle(URLEncoder.encode(b.getbTitle(), "utf-8"));
+//			
+//		}
+//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+//		gson.toJson(list, response.getWriter());
+//		
+//	}
 	
 }
