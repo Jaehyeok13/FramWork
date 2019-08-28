@@ -3,11 +3,13 @@ package com.kh.spring.board.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,14 +18,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.spring.board.exception.BoardException;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.Pagination;
+import com.kh.spring.member.model.vo.Member;
 
 
 
@@ -260,12 +267,14 @@ public class BoardController {
 //	public String boardTopList() throws  IOException {
 //		
 //		ArrayList<Board> list = bService.selectTopList();
+//		
 //		// 제목 부분 한글 깨지기 때문에 인코딩 해준다.
+	
 //		for(Board b : list) {
 //			b.setbTitle(URLEncoder.encode(b.getbTitle(), "utf-8"));
 //			
 //		}
-//		
+//		ArrayList배열을 String 으로 받기 위해서 ObjectMapper 을 사용 해야했다.
 //		ObjectMapper mapper = new ObjectMapper(); // porm.xml 가서 라이브러리 추가
 //	
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -275,6 +284,8 @@ public class BoardController {
 //		String jsonStr = mapper.writeValueAsString(list); // mapper 형변환 하여 스트링으로 넣는다.
 //		
 //		return jsonStr;
+	
+//		list 자체를 list 로 보내는 방법도 있다. 여러가지 포맷도 하고 lib 추가도 해야 하고 복잡 해진다.
 //		
 //	}
 	
@@ -285,11 +296,47 @@ public class BoardController {
 //		// 제목 부분 한글 깨지기 때문에 인코딩 해준다.
 //		for(Board b : list) {
 //			b.setbTitle(URLEncoder.encode(b.getbTitle(), "utf-8"));
-//			
 //		}
+	
 //		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 //		gson.toJson(list, response.getWriter());
 //		
 //	}
+	
+	// 댓글 리스트 가져오기
+	@RequestMapping("rList.do")
+	public void getReplyList(HttpServletResponse response ,@RequestParam("bId") int bId) throws IOException {
+		ArrayList<Reply> rList = bService.selectReplyList(bId); // bid 기준으로 받아 오겟다.
+
+		for(Reply r : rList) {
+		    r.setrContent(URLEncoder.encode(r.getrContent(), "utf-8"));
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rList, response.getWriter());
+		
+	}
+	
+	// 댓글 등록
+	@RequestMapping("addReply.do")
+	@ResponseBody
+	public String addReply(Reply r, HttpSession session) throws BoardException {
+	
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String rWriter = loginUser.getId();
+		
+		r.setrWriter(rWriter);
+		
+		System.out.println(r);
+		int result = bService.insertReply(r);
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			throw new BoardException("댓글 등록에 실패하였습니다.");
+		}
+		
+	}
+	
 	
 }

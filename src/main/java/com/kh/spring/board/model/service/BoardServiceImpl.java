@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.spring.board.model.dao.BoardDAO;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 
 // 먼저 서비스를 연결하자 @Autowired 로 되어있는 선언된 변수 연결 한다.
 @Service("bService")
@@ -58,5 +59,20 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectTopList() {
 		return bDAO.selectTopList();
 	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int bId) {
+		return bDAO.selectRelyList(bId);
+	}
+
+	// 댓글 등록
+	@Override
+	public int insertReply(Reply r) {
+		return bDAO.insertReply(r);
+	}
+
+	
+
+	
 	
 }

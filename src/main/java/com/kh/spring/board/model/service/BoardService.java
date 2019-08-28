@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 
 public interface BoardService {
 	// 페이징 처리 한다고 할때 리스트의 천제 갯수를 가지고 온다
@@ -31,6 +32,11 @@ public interface BoardService {
 
 	// 리스트 가져 오니간 one 이 아니고 여러개 list임
 	ArrayList<Board> selectTopList();
+
+	ArrayList<Reply> selectReplyList(int bId); // 댓글 리스트 가지고 올려고
+
+	int insertReply(Reply r);
+
 	
 	
 }

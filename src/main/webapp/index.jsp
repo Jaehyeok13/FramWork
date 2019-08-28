@@ -38,7 +38,7 @@
 <body>
 
 	<h1 style="text-align:center; color:#fff">
-		<img src="resources/images/sitelogo.png" style="height:50%; width:50%;"/>
+		<img src="resources/images/po.png" style="height:100%; width:30%;"/>
 	</h1>
 	
 	<p class="type_text" style="text-align:center; color:#d5d4f7; font-size:18pt"></p>
@@ -62,7 +62,7 @@
 		
 		function onYouTubePlayerAPIReady(){
 			player = new YT.Player('muteYouTubeVideoPlayer', {
-				videoId : 'Fk9EBOOAYiU',
+				videoId : 'r7OyqZtVY2A',
 				playerVars : {
 					autoplay : 1, 		// Auto-play the video on load // 자동 재생 (유)
 					controls : 0, 		// Show pause/play buttons in player // 컨트롤러의 유무 (무)
@@ -72,7 +72,7 @@
 					showinfo : 0, 		// Hide the video title // 재생 영상에 대한 정보 유무
 					modestbranding : 1, // Hide the Youtube Logo
 					loop : 1, 			// Run the video in a loop // 반복 재생에 대한 여부
-					playlist : 'Fk9EBOOAYiU',
+					playlist : 'r7OyqZtVY2A',
 					fs : 0, 			// Hide the full screen button
 					cc_load_policy : 0, // Hide closed captions
 					iv_load_policy : 3, // Hide the Video Annotations
@@ -90,8 +90,8 @@
 	<script type="text/javascript" src="resources/js/typeit.min.js"></script><!-- .js 넣기 -->
 	<script type="text/javascript">
 		$(function(){
-			var str1 = ["본 사이트는 KH 정보교육원", "수강생들을 위한 사이트로", "Spring 교육을 위한 사이트입니다."];
-			var str2 = ["누구나 할 수 있는<br>_Spring Framework와<br>_쉬운 웹 개발 노하우<br>_지금 바로 함께 하세요!!"];
+			var str1 = ["본 사이트는 포르쉐 홍보 영상입니다."];
+			var str2 = ["누구나 할 만들 수 있는<br>_나만의 도시락과 <br>_도시락 자랑 게시판 <br>_지금 바로 함께 하세요!!"];
 			var str3 = ["Hey, you!!<br>_Don't be hesitate,<br>_Right Now Start!!"];
 			
 			$('.type_text').typeIt({

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.PageInfo;
+import com.kh.spring.board.model.vo.Reply;
 
 @Repository("bDAO")
 public class BoardDAO {
@@ -56,6 +57,15 @@ public class BoardDAO {
 	public ArrayList<Board> selectTopList() {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTopList");
 	}
-	
+	public ArrayList<Reply> selectRelyList(int bId) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", bId);
+	}
+
+	public int insertReply(Reply r) {
+		return sqlSession.insert("boardMapper.insertReply",r);
+	}
+
+
+	// 댓글 등록
 	
 }

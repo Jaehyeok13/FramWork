@@ -10,11 +10,38 @@
 	margin: auto;
 	width: 700px;
 }
+*{box-sizing:board-box;}
+	 .video-film {box-shadow: rgba(0, 7, 15, 0.7) 0 0 0 9999px; z-index: 100;}
+	.video-background {
+		background: #000; position: fixed;
+		top: 0; right: 0; bottom: 0; left: 0; z-index: -99;
+	}
+	.video-foreground, .video-background iframe {
+		position: absolute; top: 0; left: 0;
+		width: 100%; height: 100%; pointer-events: none;
+	}
+	@media ( min-aspect-ratio : 16/9) {
+		.video-foreground {height: 300%; top: -100%;}
+	}
+	@media ( max-aspect-ratio : 16/9) {
+		.video-foreground {width: 300%; left: -100%;}
+	}
 </style>
 
 </head>
 <body>
 	<c:import url="common/menubar.jsp" />
+	
+	<script>
+		$(function(){
+			var msg = "<%= request.getAttribute("msg") %>";
+			if(msg != "null"){
+				alert(msg);
+			}
+		});
+	</script>
+	
+	
 
 	<h1 align="center">게시글 TOP5 목록</h1>
 	<table id="tb" border="1">
@@ -30,6 +57,9 @@
 		</thead>
 		<tbody></tbody>
 	</table>
+	
+	
+	
 	<script>
 	function topList(){
 		$.ajax({
@@ -131,7 +161,33 @@
 			topList();
 		},5000);
 	});
+	
+	
 </script>
+<script type="text/javascript" src="resources/js/typeit.min.js"></script><!-- .js 넣기 -->
+	<script type="text/javascript">
+		$(function(){
+			var str1 = ["본 사이트는 포르쉐 홍보 영상입니다."];
+			var str2 = ["누구나 할 만들 수 있는<br>_나만의 도시락과 <br>_도시락 자랑 게시판 <br>_지금 바로 함께 하세요!!"];
+			var str3 = ["Hey, you!!<br>_Don't be hesitate,<br>_Right Now Start!!"];
+			
+			$('.type_text').typeIt({
+				strings:str1,
+				html:true,
+				autoStart:true,
+				loop:true,
+				typeSpeed:100
+			})
+			.tiPause(1500)
+			.tiDelete(130)
+			.tiType(str2)
+			.tiPause(1700)
+			.tiDelete(130)
+			.tiType(str3)
+			.tiPause(1700)
+			.tiEmpty(); 
+		});
+	</script>
 
 </body>
 </html>

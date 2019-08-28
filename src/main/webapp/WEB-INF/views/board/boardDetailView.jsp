@@ -10,6 +10,7 @@
 <style type="text/css">
 	#boardDetailTable{width: 800px; margin: auto; border-collapse: collapse; border-left: hidden; border-right: hidden;}
 	#boardDetailTable tr td{padding: 5px;}
+	.replyTable{margin: auto; width: 500px; }
 </style>
 </head>
 <body>
@@ -84,6 +85,109 @@
 		<button onclick="location.href='home.do'">시작 페이지로 이동</button>
 		<button onclick="location.href='${ blist }'">목록 보기로 이동</button>
 	</p>
+	<br><br>
+	
+	<!-- 댓글 등록 부분 -->
+	<table class="replyTable">
+		<tr>
+			<td><textarea cols="55" rows="3" id="rContent"></textarea><td>
+			<td><button id="rSubmit">등록하기</button></td>
+		</tr>
+	</table>
+	
+	<!-- 댓글 목록 보기 -->
+	<table class="replyTable" id="rtb">
+	<thead>
+			<tr>
+				<td colspan="2">
+					<b id="rCount"></b>
+				</td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	
+	<script>
+		
+	
+	$(function(){
+        getReplyList(); // 디테일 뷰 들어오면 메소드 실행 된다.
+        
+        setInterval(function(){ // 시간이 지날 때 마다 메소드 한번씩 실행 된다. 시간 정해주고
+           getReplyList();
+        }, 10000);
+     });
+     
+     
+     // 댓글 등록 ajax
+     $("#rSubmit").on("click",function(){
+        var rContent = $("#rContent").val();
+        var refBid = ${board.bId};
+        
+        // 작성자 게시판 번호
+        $.ajax({
+           url: "addReply.do",
+           data: {rContent:rContent, refBid: refBid}, // 내용과 댓글 번호 넘김
+           type: "post",
+           success: function(data){
+              if(data == "success"){
+            	  getReplyList();
+            	  $("#rContent").val("");
+              }
+           }
+        });
+     });
+     
+     
+     // 댓글 리스트 ajax
+     function getReplyList(){
+        var bId = ${ board.bId };
+        console.log(bId);
+        
+        $.ajax({
+           url: "rList.do",
+           data: {bId: bId}, // 보낸 타입 json
+           dataType: "json",
+           success: function(data){
+        	   $tableBody = $('#rtb tbody');
+        	   $tableBody.html("");
+        	   
+        	   console.log(data);
+        	   
+        	   var $tr;
+        	   var $rWriter;
+        	   var $rContent
+        	   var $rCreateDate;
+        	   
+        	   $("#rCount").text("댓글(" + data.length + ")"); // 등록된 댓글 갯구 가져 오기 위한것
+        	   
+        	   if(data.length > 0){
+        		   for(var i in data){
+        			   $tr = $("<tr>");
+        			   $rWriter = $("<td width='100'>").text(data[i].rWriter);
+        			   $rContent = $("<td>").text(decodeURIComponent(data[i].rContent.replace(/\+/g, " ")));
+        			   $rCreateDate = $("<td width='100'>").text(data[i].rCreateDate);
+        			   
+        			   $tr.append($rWriter);
+        			   $tr.append($rContent);
+        			   $tr.append($rCreateDate);
+        			   $tableBody.append($tr);
+        		   }
+        	   }else{
+        		   $tr = $("<tr>");
+        		   $rContent = $("<td colspan='3'>").text("등록된 댓글이 업습니다.");
+        		   $tr.append($rContent);
+        		   $tableBody.append($tr);
+        	   }
+        	   
+           }
+        });
+     }
+		
+		
+		
+		
+	</script>
 	
 </body>
 </html>

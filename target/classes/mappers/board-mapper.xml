@@ -72,5 +72,28 @@
 		]]>
 	</select>
 	
+	<select id="selectReplyList" parameterType="_int"  resultMap="replyResultSet">
+		select *
+		from reply r
+				join board b on(r.ref_bid = b.bid)
+		where ref_bid=#{bId}
+		order by rid desc
+	
+	</select>
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rId" column="RID"/>
+  		<result property="rContent" column="RCONTENT"/>
+  		<result property="refBid" column="REF_BID"/>
+  		<result property="rWriter" column="RWRITER"/>
+  		<result property="rCreateDate" column="R_CREATE_DATE"/>
+  		<result property="rModifyDate" column="R_MODIFY_DATE"/>
+  		<result property="rStatus" column="R_STATUS"/>
+	</resultMap>
+	
+	<insert id="insertReply" parameterType="Reply">
+		insert into reply
+		values(seq_rid.nextval, #{rContent}, #{refBid}, #{rWriter}, sysdate,sysdate,default)
+	</insert>
+	
 	
 </mapper>

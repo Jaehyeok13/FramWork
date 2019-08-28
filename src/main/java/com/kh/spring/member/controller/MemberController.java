@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,9 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder; // bean 으로 등록 해야지 사용이 가능하다. 새로운 xml 파일 만들어서 등록 하겟다.
+	
+	
+	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	/******************* 파라미터 전송 받는 방법 ********************/
 	
@@ -245,6 +250,9 @@ public class MemberController {
 	// 회원 가입 페이지 이동
 	@RequestMapping("enrollView.do")
 	public String enrollView() {
+		if(logger.isDebugEnabled()) {
+			logger.debug("회원등록페이지");
+		}
 		return "member/memberJoin";
 	}
 	
