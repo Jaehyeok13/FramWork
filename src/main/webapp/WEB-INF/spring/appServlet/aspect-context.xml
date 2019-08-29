@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- LoggerAspect 빈 등록 -->
+	<bean id="loggerAspect" class="com.kh.spring.common.aop.LoggerAspect"/>
+	
+	<!-- =========================== 선언적 AOP 활용 시작 ============================= -->
+ <!-- 
+	<aop:config> id는 이 aspect 의 아이디라고 생각하면 된다. 
+		<aop:aspect id="loggerAspect" ref="loggerAspect">
+			<aop:pointcut expression="execution(* com.kh.spring.memo..*(..))" id="pcForAll"/>
+			맨앞 * 모든 린턴 타입 허용  void 일 경우 리턴타입이 void 인 경우
+			즉 메모 아래 에 있는 패키지 의 모든 것들 ..* 패키지 명 
+			
+			id 는 point의 id 임
+			
+			<aop:around method="loggerAdvice" pointcut-ref="pcForAll"/>
+			
+		</aop:aspect>
+	</aop:config>
+	 -->
+
+	<!-- =========================== 선언적 AOP 활용 끝 ============================= -->
+	
+	<!-- =========================== 프로그래밍적 AOP 활용 시작 ============================= -->
+	<aop:aspectj-autoproxy/>
+	<!-- =========================== 프로그래밍적 AOP 활용 끝 ============================= -->
+	
+</beans>

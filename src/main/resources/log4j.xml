@@ -53,12 +53,20 @@
 		</layout>
 	</appender>
 	
-	   <appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
+	<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
       <layout class="org.apache.log4j.PatternLayout">
          <param name="ConversionPattern" value="% -5p: %m%n"/>
       </layout>
    
    </appender>
+   
+   <!-- memo -->
+  <!--  <appender name="memoConsole" class="org.apache.log4j.ConsoleAppender">
+   		<param name = "target" value="System.out"/>
+   		<layout class="org.apache.log4j.PatternLayout">
+   			<param name="ConversionPattern"  value="%-5p: %c{1}.%M{%L} - %m%n"/>
+   		</layout>
+   </appender> -->
 	
 	<!-- Application Loggers --> <!-- 내가 어떤 log를 가지고 있을지 -->
 	<logger name="com.kh.spring"> <!-- info 부터 시작한다. -->
@@ -84,6 +92,8 @@
 		
 			참조 한다.
 	 -->
+	 
+	 
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
@@ -110,6 +120,10 @@
       <appender-ref ref="myConsole"/> <!-- 작성후 memberController 로 이동 -->
    </logger>
    
+   <logger name ="com.kh.spring" >
+   	<level value="debug"/>
+   </logger>
+   
    <!-- logger 설정해준다. -->
    <logger name="com.kh.spring.common.interceptor.LoggerInterceptor" additivity="false">
    		<level value="debug"/>
@@ -130,6 +144,7 @@
       <level value="info"/>
       <appender-ref ref="sqlLogger"/>
    </logger>
+   
    
 	
 	<!-- Root Logger --><!-- append에  -->

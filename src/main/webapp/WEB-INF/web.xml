@@ -23,10 +23,16 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/servlet-context.xml
+			<!-- 추가한다 LoggerAspect 관련 -->
+				/WEB-INF/spring/appServlet/aspect-context.xml 
+				<!-- 만들고 경로 따라가서 만들어라  -->
+			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
